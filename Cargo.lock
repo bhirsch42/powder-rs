@@ -2352,6 +2352,7 @@ dependencies = [
  "bevy",
  "iyes_loopless",
  "rand",
+ "serde",
 ]
 
 [[package]]
