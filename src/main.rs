@@ -47,7 +47,10 @@ fn setup(
                     dust_particle_type: DustParticleType::Powder,
                 },
                 DustParticleDynamic,
-                DustParticlePosition { row: i, column: j },
+                DustParticlePosition {
+                    row: i,
+                    column: j + DUST_WORLD_SIZE / 4,
+                },
                 dust_world.clone(),
             ));
         }

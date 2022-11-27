@@ -14,10 +14,50 @@ pub fn apply_gravity(
             continue;
         }
 
-        let neighbor_below = dust_world.grid[down_one_row][dust_particle_position.column];
+        let can_go_down = dust_world.grid[down_one_row][dust_particle_position.column].is_none();
 
-        if neighbor_below.is_none() {
-            dust_particle_position.row = down_one_row
+        if can_go_down {
+            dust_particle_position.row = down_one_row;
+            continue;
+        }
+
+        let mut can_go_left = false;
+        let mut can_go_right = false;
+
+        let right_one_column = dust_particle_position.column + 1;
+        if right_one_column < dust_world.grid.len() {
+            can_go_right = dust_world.grid[down_one_row][right_one_column].is_none();
+        }
+
+        if dust_particle_position.column > 0 {
+            let left_one_column = dust_particle_position.column - 1;
+
+            if left_one_column > 0 {
+                can_go_left = dust_world.grid[down_one_row][left_one_column].is_none();
+            }
+        }
+
+        if can_go_left && can_go_right {
+            if rand::random() {
+                dust_particle_position.column -= 1;
+            } else {
+                dust_particle_position.column += 1;
+            }
+
+            dust_particle_position.row = down_one_row;
+            continue;
+        }
+
+        if can_go_left {
+            dust_particle_position.column -= 1;
+            dust_particle_position.row = down_one_row;
+            continue;
+        }
+
+        if can_go_right {
+            dust_particle_position.column += 1;
+            dust_particle_position.row = down_one_row;
+            continue;
         }
     }
 }

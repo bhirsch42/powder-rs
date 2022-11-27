@@ -59,14 +59,12 @@ pub struct DustPlugin;
 
 impl Plugin for DustPlugin {
     fn build(&self, app: &mut App) {
-        app.add_asset::<DustWorld>()
-            .add_system(apply_gravity)
-            .add_system(clear_dust_world_grids)
-            .add_system(
-                sync_particles_to_grids
-                    .after(apply_gravity)
-                    .after(clear_dust_world_grids),
-            )
-            .add_system(render_dust_world.after(sync_particles_to_grids));
+        let update_dust_world = apply_gravity;
+        let buffer_dust_world = clear_dust_world_grids.pipe(sync_particles_to_grids);
+        let run_dust_world = update_dust_world
+            .pipe(buffer_dust_world)
+            .pipe(render_dust_world);
+
+        app.add_asset::<DustWorld>().add_system(run_dust_world);
     }
 }
