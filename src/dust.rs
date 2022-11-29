@@ -14,6 +14,7 @@ mod sync_particles_to_grids;
 mod update_dust_particles;
 
 pub const DUST_WORLD_SIZE: usize = 512;
+pub const PARALLEL_BATCH_SIZE: usize = 40000;
 
 #[derive(Clone, Copy, Deserialize, Debug)]
 pub enum DustParticleType {

@@ -3,15 +3,15 @@ use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat};
 use bevy::render::texture::ImageSampler;
 
-use super::{DustWorld, DUST_WORLD_SIZE};
+use super::*;
 
 pub fn render_dust_world(
-    mut query: Query<(&mut Handle<Image>, &Handle<DustWorld>)>,
+    query: Query<(&mut Handle<Image>, &Handle<DustWorld>)>,
     mut images: ResMut<Assets<Image>>,
     dust_worlds: ResMut<Assets<DustWorld>>,
 ) {
-    for (image_handle, dust_world) in &mut query {
-        let image = images.get_mut(&image_handle).unwrap();
+    query.for_each(|(image_handle, dust_world)| {
+        let image = images.get_mut(image_handle).unwrap();
         let dust_world = dust_worlds.get(dust_world).unwrap();
 
         let rgba_values: Vec<u8> = dust_world
@@ -39,5 +39,5 @@ pub fn render_dust_world(
 
         texture.sampler_descriptor = ImageSampler::nearest();
         image.clone_from(&texture);
-    }
+    })
 }

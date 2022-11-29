@@ -1,11 +1,10 @@
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
 use bevy::{prelude::*, window::close_on_esc};
-use dust::{
-    add_dust_world_texture, DustParticle, DustParticleDynamic, DustParticlePosition,
-    DustParticleType, DustPlugin, DustWorld, DUST_WORLD_SIZE,
-};
+use dust::*;
 
 mod dust;
+
+const SCALE: f32 = 1.5;
 
 fn main() {
     App::new()
@@ -31,24 +30,34 @@ fn setup(
     mut dust_worlds: ResMut<Assets<DustWorld>>,
 ) {
     commands.spawn(Camera2dBundle::default());
+    spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
+    spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
+    spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
+    // spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
+}
 
+fn spawn_test_world(
+    commands: &mut Commands,
+    images: &mut ResMut<Assets<Image>>,
+    dust_worlds: &mut ResMut<Assets<DustWorld>>,
+) {
     let dust_world = dust_worlds.add(DustWorld::default());
 
     commands.spawn((
         SpriteBundle {
             transform: Transform::from_scale(Vec3 {
-                x: 1.75,
-                y: 1.75,
-                z: 1.75,
+                x: SCALE,
+                y: SCALE,
+                z: SCALE,
             }),
-            texture: add_dust_world_texture(&mut images),
+            texture: add_dust_world_texture(images),
             ..default()
         },
         dust_world.clone(),
     ));
 
-    for i in 0..500 {
-        for j in 0..500 {
+    for i in 0..400 {
+        for j in 0..400 {
             commands.spawn((
                 DustParticle {
                     dust_particle_type: DustParticleType::Powder,
