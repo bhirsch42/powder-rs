@@ -63,10 +63,12 @@ impl DustParticlePosition {
 #[derive(Component)]
 pub struct DustParticleDynamic;
 
+type DustWorldGrid = Vec<Vec<Option<DustParticle>>>;
+
 #[derive(TypeUuid)]
 #[uuid = "2b2ab282-74dc-4de7-a663-5384861a2699"]
 pub struct DustWorld {
-    grid: Vec<Vec<Option<DustParticle>>>,
+    grid: DustWorldGrid,
 }
 
 impl Default for DustWorld {
