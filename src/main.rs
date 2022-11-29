@@ -4,7 +4,7 @@ use dust::*;
 
 mod dust;
 
-const SCALE: f32 = 1.5;
+const SCALE: f32 = 1.;
 
 fn main() {
     App::new()
@@ -31,8 +31,8 @@ fn setup(
 ) {
     commands.spawn(Camera2dBundle::default());
     spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
-    spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
-    spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
+    // spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
+    // spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
     // spawn_test_world(&mut commands, &mut images, &mut dust_worlds);
 }
 
@@ -56,14 +56,14 @@ fn spawn_test_world(
         dust_world.clone(),
     ));
 
-    for i in 0..400 {
-        for j in 0..400 {
+    for i in 0..800 {
+        for j in 0..20 {
             commands.spawn((
                 DustParticle {
                     dust_particle_type: DustParticleType::Powder,
                 },
                 DustParticleDynamic,
-                DustParticlePosition::new((i, j)),
+                DustParticlePosition::new((i, j + DUST_WORLD_SIZE / 2 - 20)),
                 dust_world.clone(),
             ));
         }

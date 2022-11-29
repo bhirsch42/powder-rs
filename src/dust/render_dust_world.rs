@@ -16,13 +16,12 @@ pub fn render_dust_world(
 
         let rgba_values: Vec<u8> = dust_world
             .grid
-            .into_iter()
+            .iter()
             .flat_map(|row| {
-                row.into_iter()
-                    .flat_map(|dust_particle| match dust_particle {
-                        Some(particle) => particle.color(),
-                        None => [0u8, 0u8, 0u8, 255u8],
-                    })
+                row.iter().flat_map(|dust_particle| match dust_particle {
+                    Some(particle) => particle.color(),
+                    None => [0u8, 0u8, 0u8, 255u8],
+                })
             })
             .collect();
 
